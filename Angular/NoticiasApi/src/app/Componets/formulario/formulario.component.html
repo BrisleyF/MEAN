@@ -1,0 +1,37 @@
+<div class="jumbotron">
+  <h2 class="heading">filtra noticias por pais y categorias</h2>
+
+  <form class="row" (ngSubmit)="buscarNoticias()">
+    <div class="col-lg-8 offset-lg-2">
+      <label for="exampleSelect1" class="form-label mt-4">Categorias</label>
+      <select
+      class="form-select"
+      id="exampleSelect1"
+      [(ngModel)]="categoriaSeleccionado"
+      [ngModelOptions]="{standalone: true}"
+      >
+
+        @for (item of categorias; track $index) {
+          <option [value]="item.value">{{item.nombre}}</option>
+        }
+
+      </select>
+    </div>
+    <div class="col-lg-8 offset-lg-2">
+      <label for="exampleSelect1" class="form-label mt-4">Pais</label>
+      <select
+      class="form-select"
+      id="exampleSelect1"
+      [(ngModel)]="paisSeleccionado"
+      [ngModelOptions]="{standalone: true}"
+      >
+
+        @for (item of paises; track $index) {
+          <option [value]="item.value">{{item.nombre}}</option>
+        }
+
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary mt-4 col-12">Enviar</button>
+  </form>
+</div>

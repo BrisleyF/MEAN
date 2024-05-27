@@ -1,0 +1,20 @@
+.header {
+    background-color: #e0d3b8;
+    height: 20%;
+}
+
+.list {
+    padding: 10px 0;
+    text-align: center;
+}
+
+.list #elem {
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 24px;
+    color: #a69a81;
+}
+
+.list #elem:hover {
+    color: #706f6b;
+}

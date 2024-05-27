@@ -1,0 +1,20 @@
+.content {
+    width: 500px;
+    height: 500px;
+    background-color: #d76483;
+    position: relative;
+    animation: mover 1s linear alternate;
+}
+
+p {
+    text-align: center;
+}
+
+@keyframes mover {
+    from {
+        left: 0;
+    }
+    to {
+        left: 80%;
+    }
+}

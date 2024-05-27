@@ -1,0 +1,19 @@
+<label>Datos del usuario</label>
+<!--<form #userData>
+  <label for="nombre">Nombre</label>
+  <input name="nombre" type="text" placeholder="Nombre">
+  <label for="email">Email address</label>
+  <input name="email" type="text" placeholder="name@example.com">
+  <button type="button" (click)="onSubmit(userData)">Enviar</button>
+</form>-->
+
+<!--Ejercicio 3-->
+<form>
+  <label for="nombre">Nombre</label>
+  <input name="nombre" type="text" placeholder="Nombre" [(ngModel)]="userForm.nombre">
+  <label for="email">Email address</label>
+  <input name="email" type="text" placeholder="name@example.com">
+  <button type="button">Enviar</button>
+</form>
+
+<app-user-details [user]="userForm"></app-user-details>

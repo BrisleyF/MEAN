@@ -1,0 +1,73 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="titulo">CREAR TARJETA</h5>
+    <form [formGroup]="form" (ngSubmit)="agregarTarjeta()">
+      <div class="input-group mb-3">
+        <span class="input-group-text">
+          <i class="fa-solid fa-at"
+          [class.green-icon]="this.form.get('titular')?.valid"
+          [class.red-icon]="this.form.get('titular')?.invalid && this.form.get('titular')?.dirty">
+        </i>
+        </span>
+        <input
+        type="text"
+        class="form-control"
+        placeholder="Email"
+        formControlName="titular"
+        >
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text">
+          <i class="fa-solid fa-credit-card"
+          [class.green-icon]="this.form.get('numeroTarjeta')?.valid"
+          [class.red-icon]="this.form.get('numeroTarjeta')?.invalid && this.form.get('numeroTarjeta')?.dirty">
+          </i>
+        </span>
+        <input
+        type="text"
+        class="form-control"
+        placeholder="Tarjeta de credito"
+        formControlName="numeroTarjeta"
+        maxlength="16"
+        >
+      </div>
+      <div class="row">
+        <div class="col-lg-7">
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              <i class="fa-regular fa-calendar-days"
+              [class.green-icon]="this.form.get('fechaCaducidad')?.valid"
+              [class.red-icon]="this.form.get('fechaCaducidad')?.invalid && this.form.get('fechaCaducidad')?.dirty">
+              </i>
+            </span>
+            <input
+            type="text"
+            class="form-control"
+            placeholder="Fecha de caducidad"
+            formControlName="fechaCaducidad"
+            >
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              <i class="fa-solid fa-shield-halved"
+              [class.green-icon]="this.form.get('cvv')?.valid"
+              [class.red-icon]="this.form.get('cvv')?.invalid && this.form.get('cvv')?.dirty">
+              </i>
+            </span>
+            <input
+            type="text"
+            class="form-control"
+            placeholder="CVV"
+            formControlName="cvv"
+            >
+          </div>
+        </div>
+      </div>
+      <div class="d-grid gap-4">
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Enviar</button>
+      </div>
+    </form>
+  </div>
+</div>

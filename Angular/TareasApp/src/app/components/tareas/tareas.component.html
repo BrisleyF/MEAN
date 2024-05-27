@@ -1,0 +1,28 @@
+<div>
+  <div class="row col-lg-8 offset-lg-2">
+    <label for="staticEmail" class="col-sm-2 col-form-label">Tarea</label>
+    <div>
+      <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+        placeholder="Ingresar tarea" [(ngModel)]="nombreTarea" (keyup.enter)="agregarTarea()">
+    </div>
+  </div>
+  <div class="col-lg-6 offset-lg-3 mt-3">
+    <label for="exampleInputEmail1" class="form-label mt-4">Lista de tareas</label>
+    @if (listaTarea.length === 0){
+    <div class="card">
+      <h6 class="text-danger">No hay tareas para mostrar</h6>
+    </div>
+    }
+    <ul class="list-group">
+      @for (item of listaTarea; track $index) {
+
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="cursor" [ngClass]="item.estado ? 'text-success fa-regular fa-circle-check' : 'fa-regular fa-circle'" (click)="modificarEstado($index)"></span>
+        {{item.nombre}}
+        <span class="text-danger cursor" (click)="eliminarTarea($index)"><i class="fa-solid fa-trash-can"></i></span>
+      </li>
+
+      }
+    </ul>
+  </div>
+</div>

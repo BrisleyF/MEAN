@@ -1,0 +1,25 @@
+.content {
+    border: 3px solid black;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.elem {
+    width: 200px;
+    height: 100px;
+    margin: 10px;
+    background-color: aquamarine;
+    display: inline;
+}
+
+@media (max-width: 516px) {
+    .content {
+        width: 50%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .elem {
+        text-align: center;
+    }
+}

@@ -1,0 +1,15 @@
+#content {
+    border: 5px solid #00aaff;
+    width: 50%;
+    height: 100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#link {
+    font-size: 25px;
+}
+
+#link:hover {
+    color: #8f9a9c;
+}

@@ -1,0 +1,8 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <app-formulario (parametrosSeleccionados)="buscarNoticias($event)"></app-formulario>
+</div>
+@if(loading){
+  <app-spinner></app-spinner>
+}
+<app-lista-noticias [listadoNoticias]="listaNoticias"></app-lista-noticias>

@@ -1,0 +1,11 @@
+<app-header></app-header>
+<div class="grid">
+  <!--<app-card [datoEntrante]="card" *ngFor="let card of elementList">
+  </app-card>-->
+  @for (card of elementList; track card) {
+    <app-card [datoEntrante]="card"></app-card>
+  }  @empty {
+    <h1>NO HAY NADA</h1>
+  }
+
+</div>

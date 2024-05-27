@@ -1,0 +1,14 @@
+.content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: 0 auto;
+    border: 3px solid red;
+}
+
+.elem {
+    width: 30%;
+    height: 30px;
+    text-align: center;
+}
