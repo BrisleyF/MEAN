@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<script type="application/javascript">
+
+//////////////////
+// AJAX         //
+// Asynchronous //
+// Javascript   //
+// XML          //
+//////////////////
+
+//El objeto XMLHttpRequest
+//----------------------------------------------
+//Identidad
+//-responseText: el contenido de la respuesta como un texto en bruto
+//-responseXML: el contenido de la respuesta como un árbol DOM (solo si la respuesta es un XML)
+//-status: código de respuesta HTTP
+//-readyState: estado del objeto xhr
+//
+//Funcionalidad
+//-open(metodo, url, asincrono=true)
+//-send( opcional:contenido del body de la respuesta )
+//-onreadystatechange: por defecto null
+
+//////////////////////////
+// Peticiones SÍNCRONAS //
+//////////////////////////
+
+/*
+function enviarPeticionSincrona(){
+    let xhr = new XMLHttpRequest()
+    xhr.open("GET", "https://reqres.in/api/users?delay=10", false)
+    xhr.send()  
+    rellenarTabla(JSON.parse(xhr.responseText).data) //La lista de usuarios está en la propiedad 'data'
+}
+*/
+
+function enviarPeticionSincrona(){
+
+    //Esto no va a salir:
+    document.getElementById("mensaje").innerHTML = "<h2 align='center'>Espere por favor</h2>"
+
+    //Para enviar una petición ajax primero necesitamos un objeto XMLHttpRequest
+    let xhr = new XMLHttpRequest()
+
+    //Open sirve para inicializar el objeto XMLHttpRequest. Recibe tres parámetros
+    //-Método HTTP
+    //-Url
+    //-Sincrono/asincrono false/true. Por defecto es true    
+    xhr.open("GET", "https://reqres.in/api/users?delay=10", false)
+
+    console.log("ANTES:", xhr.responseText) //Inicialmente está vacío
+    
+    //Si la petición es síncrona el hilo de ejecución no pasará a la 
+    //siguiente línea hasta que haya llegado la respuesta
+    xhr.send(null) //No hace falta escribir el 'null' 
+    
+    console.log("DESPUES:", xhr.responseText) 
+
+    document.getElementById("mensaje").innerHTML = ""
+
+    let json = xhr.responseText
+    let objeto = JSON.parse(json)
+    rellenarTabla(objeto.data) //La lista de usuarios está en la propiedad 'data'
+
+}
+
+///////////////////////////
+// Peticiones ASINCRONAS //
+///////////////////////////
+
+function enviarPeticionAsincrona(){
+
+    document.getElementById("mensaje").innerHTML = "<h2 align='center'>Espere por favor</h2>"
+
+    let xhr = new XMLHttpRequest()
+
+    //xhr.readyState
+    //---------------------------
+    //0-UNSENT
+    //1-OPEN
+    //2-HEADERS_RECEIVED
+    //3-LOADING
+    //4-DONE
+    xhr.onreadystatechange = function(){
+        console.log("Valor de readyState:"+this.readyState)
+        if(this.readyState == 4){
+            console.log("DONE!")
+            //Status HTTP
+            //1XX - Informativas (no las usa ni petrosky)
+            //2XX - Todo fue bien 
+            //3XX - Vámonos (redirects)
+            //4XX - Te has equivocato tu (error del cliente)
+            //5XX - Nos hemos equivocado nosotros (error del servidor)
+            if(this.status != 200){
+                alert("ERROR AL LISTAR LOS USUARIOS!!!")
+                return
+            }
+            let json = this.responseText
+            let objeto = JSON.parse(json)
+            rellenarTabla(objeto.data)
+
+            document.getElementById("mensaje").innerHTML = ""
+        }
+    }
+
+    xhr.open("GET", "https://reqres.in/api/users?delay=10", true) //El valor por defecto del tercer parámetro es 'true'
+
+    //Cuando la petición es asíncrona la llamada a 'send' no es bloqueante
+    xhr.send()
+    
+    console.log("DESPUES:"+xhr.responseText) //nasti de plasti
+}
+
+//INTENTANDO UNA ESPERA ACTIVA
+//
+/*
+function enviarPeticionAsincrona(){
+    let xhr = new XMLHttpRequest()
+    xhr.open("GET", "https://reqres.in/api/users?delay=3", true) //El valor por defecto del tercer parámetro es 'true'
+    xhr.send()
+
+    //Esto deja bloqueado al navegador para siempre!!!
+    while(xhr.readyState != 4){
+        //A dar vueltas
+    }    
+
+    rellenarTabla(JSON.parse(xhr.responseText).data) //La lista de usuarios está en la propiedad 'data'
+}
+*/
+
+//////////////////////
+// onload y onerror //
+//////////////////////
+function enviarPeticionMillenial(){
+    
+    let xhr = new XMLHttpRequest()
+    
+    xhr.open("GET", "https://reqres.in/api/users?delay=5",true) 
+
+    //On load se invoca cuando:
+    //-readyState = 4
+    //-status     = CUALQUIERA
+    xhr.onload = function(){
+        if(this.status != 200){
+            console.log("NO HA SIDO UN 200!!!")
+            return
+        }
+        rellenarTabla(JSON.parse(this.responseText).data)        
+    }
+    
+    //On error se invoca cuando:
+    //-readyState = 4
+    //-status     = 4XX | 5XX  
+    //Solo se invoca si la petición ha fallado  
+    xhr.onerror = function(){
+        console.log("ERROR!!!")
+    }
+    
+    //Esta llamada no es bloqueante
+    xhr.send()
+
+}
+
+function enviarPeticionFetch(){
+
+    /*
+    //Una promesa es un objeto relacionado con tareas asíncronas
+
+    let promise = fetch("https://reqres.in/api/users?delay=5")
+
+    //Tienen dos funciones que sirven para aportar los callback
+    //La función que proporcionamos con then se ejecuta si se ha podido enviar 
+    //la petición y ha llegado una respuesta (200, 400 o 500!!!!)
+    //Then es obligatorio, Si no se asigna no se envía la petición
+    //La función proporcinada con 'then' recibirá por parámetro
+    //un objeto response
+
+    promise.then(function(response){})
+
+    //La función que proporcionamos con catch se ejecutará si la petición no se
+    //ha podido enviar (por ejemplo porque no ha red)
+    //Catch es opcional
+
+    promise.catch(function(){})
+    */
+
+    fetch("https://reqres.in/api/users?delay=1")
+        .then(function(response){
+            console.log("Respuesta recibida")
+            console.log(response)
+            //En el objeto response tenemos todo lo relacionado con la respuesta:
+            console.log(response.status) //El status code
+            //return response.text()
+            return response.json()
+        })
+        .then(function(objetos){
+            rellenarTabla(objetos.data)
+        })
+        .catch(function(){
+            console.log("No se pudo enviar la peticion")
+        })
+}
+
+function rellenarTabla(usuarios){
+    let html = ""
+    for(let usuario of usuarios){
+        html += `
+            <tr>
+                <td>${usuario.first_name}</td>
+                <td>${usuario.last_name}</td>
+                <td>${usuario.email}</td>
+                <td>
+                    <img src="${usuario.avatar}"/>
+                </td>
+            </tr>`
+    }
+    document.getElementById("tablaUsuarios").innerHTML = html
+}
+
+window.onload = function(){
+    document.getElementById("btnListarUsuariosSincrono").onclick = enviarPeticionSincrona
+    document.getElementById("btnListarUsuariosAsincrono").onclick = enviarPeticionAsincrona
+    document.getElementById("btnListarUsuariosMillenial").onclick = enviarPeticionMillenial    
+    document.getElementById("btnListarUsuariosFetch").onclick = enviarPeticionFetch    
+}
+
+</script>
+
+<body>
+
+    <h1>12_AJAX</h1>
+
+    <input type="text"/>
+
+    <hr/>
+
+    <p align="center">
+        <button id="btnListarUsuariosSincrono">Listar Síncrono</button>
+        <button id="btnListarUsuariosAsincrono">Listar Asíncrono</button>
+        <button id="btnListarUsuariosMillenial">Listar Millenial</button>
+        <button id="btnListarUsuariosFetch">Listar Fetch</button>
+    </p>
+
+    <div id="mensaje"></div>
+
+    <h1 align="center" id="mensaje"></h1>
+
+    <table align="center" border="1">
+        <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Correo E</th>
+            <th>Afoto</th>
+        </tr>
+        <tbody id="tablaUsuarios"></tbody>
+    </table>
+    
+</body>
+</html>
+
+
+
+

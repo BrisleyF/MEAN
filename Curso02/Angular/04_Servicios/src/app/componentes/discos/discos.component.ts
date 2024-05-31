@@ -1,3 +1,4 @@
+import { ServicioDiscos } from './../../modelo/servicios/servicioDiscos';
 import { Component } from '@angular/core';
 import { Disco } from '../../modelo/entidades/disco';
 import { FormsModule } from '@angular/forms';
@@ -7,21 +8,22 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [FormsModule],
   templateUrl: './discos.component.html',
-  providers: []
+  providers: [] 
 })
 export class DiscosComponent {
 
   public disco:Disco    = new Disco() //Este es el disco que está unido al formulario con ngModel
   public discos:Disco[] = [] //Este es el array que está unido al @for
 
-  public constructor(){
-    this.obtenerDiscos()
+  public constructor(private servicioDiscos:ServicioDiscos){
+    this.obtenerDiscos();
   }
 
   public insertar():void{
-    console.log("Insertar en DiscosComponent")
-    this.obtenerDiscos()
-    this.vaciar()
+    console.log("Insertar en DiscosComponent");
+    this.servicioDiscos.insertar(this.disco);
+    this.obtenerDiscos();
+    this.vaciar();
   }
 
   public modificar():void{
@@ -39,6 +41,10 @@ export class DiscosComponent {
   }
 
   public obtenerDiscos():void{
+  
+    this.discos = this.servicioDiscos.listar();
   }
+
+
 
 }
