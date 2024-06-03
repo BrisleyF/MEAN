@@ -1,0 +1,75 @@
+
+
+<br/>
+<br/>
+
+<div class="text-center">
+    <button class="btn btn-primary" (click)="listarUsuarios()">Listar</button>
+    <button class="btn btn-primary m-1" (click)="listarPeliculas()">Listar Películas</button>
+</div>
+
+<br/>
+<br/>
+
+<table class="table table-hover table-striped">    
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Correo E</th>
+            <th class="text-center">Afoto</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(u of usuarios; track u.first_name) {
+        <tr>
+            <td>{{u.first_name}}</td>
+            <td>{{u.last_name}}</td>
+            <td>{{u.email}}</td>
+            <td class="text-center">
+                <img [src]="u.avatar"/>
+            </td>
+        </tr>
+        }
+        @empty {
+            <tr>
+                <td colspan="4">
+                    No hay usuarios en la tabla.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>  
+
+<br/>
+<hr/>
+<br/>
+
+<table class="table table-hover table-striped">    
+    <thead>
+        <tr>
+            <th>Titulo</th>
+            <th>Director</th>
+            <th>Año</th>
+            <th>Género</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(pelicula of peliculas; track pelicula._id) {
+            <tr>
+                <td>{{pelicula.titulo}}</td>
+                <td>{{pelicula.director}}</td>
+                <td>{{pelicula.year}}</td>
+                <td>{{pelicula.genero}}</td>
+            </tr>
+            }
+            @empty {
+                <tr>
+                    <td colspan="4">
+                        No hay películas en la tabla.
+                    </td>
+                </tr>
+            }        
+    </tbody>
+</table>  
+

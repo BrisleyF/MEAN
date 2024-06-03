@@ -1,7 +1,7 @@
 require('dotenv').config({path: '../.env'});
 const mongodb = require("mongodb");
 
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = process.env.DATABASE_URL_PELICULAS;
 exports.esquema = null;
 
 exports.conectar = function(){

@@ -25,14 +25,18 @@ function procesarPeticion(request, response){
     let ruta = request.url;
     console.log(`Peticion recibida: ${metodo} ${ruta}`);
 
+    //Cross Origin Resource Sharing
+    //Vamos a añadir estos headers a todas las respuestas que demos, sean options o no:
+    response.setHeader("Access-Control-Allow-Origin", "*")
+    response.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS')
+    response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+
     if(metodo=="GET" && ruta=="/peliculas"){
         endpointPeliculas.listarPeliculas(request, response);
         //console.log("GET");
-        response.end();
     } else if(metodo=="POST" && ruta=="/peliculas"){
         endpointPeliculas.insertarPeliculas(request, response);
         //console.log("POST");
-        response.end();
     } else {
         console.log("No se encontro la peticion");
         response.statusCode = 404;
