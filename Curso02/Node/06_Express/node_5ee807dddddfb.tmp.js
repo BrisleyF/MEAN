@@ -220,22 +220,3 @@ function modificarAvion(request, response){
 
 //Si no lo encuentra ya se devuelve un 404
 app.use(express.static("./recursos"))
-
-//
-//Definiendo el 'HOME'
-//
-app.get("/", home)
-function home(request, response){
-    //express añade la función 'sendFile' a response
-
-    //Debemos indicar la ruta ABSOLUTA
-    //Dirname es una variable implícita (que solo tenemos en node) en la
-    //que se guarda la ruta absoluta al raíz de la aplicacion
-    //console.log(__dirname) 
-    response.sendFile(__dirname+"/recursos/agenda.html")
-}
-
-//Quitando la 'publicidad'
-//Express añade por defecto a todas las respuestas el header 'X-Powered-By: Express'
-//Cuantas menos indicaciones demos a posibles atacantes MEJOR
-app.disable('x-powered-by')

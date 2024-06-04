@@ -238,4 +238,4 @@ function home(request, response){
 //Quitando la 'publicidad'
 //Express añade por defecto a todas las respuestas el header 'X-Powered-By: Express'
 //Cuantas menos indicaciones demos a posibles atacantes MEJOR
-app.disable('x-powered-by')
+//app.disable('x-powered-by')
