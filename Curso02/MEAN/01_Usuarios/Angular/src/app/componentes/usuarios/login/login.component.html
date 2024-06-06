@@ -1,0 +1,36 @@
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div class="card card-primary">
+    <div class="card-header">Login</div>
+    <div class="card-body">
+
+    <form class="form-horizontal" id="formulario">
+        <div class="form-group">
+        <label class="control-label col-xs-2" for="login">Login</label>
+        <div class="col-xs-10">
+            <input id="login" type="text" class="form-control"/>
+        </div>
+        </div>   
+        <div class="form-group">
+        <label class="control-label col-xs-2" for="pw">Pw</label>
+        <div class="col-xs-10">
+            <input id="pw" type="text" formControlName="password" class="form-control"/>
+        </div>
+        </div>  
+        
+        <div class="alert alert-danger mt-3">Credenciales incorrectas</div>
+
+    </form>
+
+    <div class="text-center mt-3">
+        <input type="button" class="btn ms-1 btn-primary" style="width:110px" value="Entrar" />
+        <input type="button" class="btn ms-1 btn-primary" style="width:110px" routerLink="/registro" value="Registrarse" />
+    </div>   
+
+    </div>
+</div>
+
