@@ -4,6 +4,7 @@ import { MaquetacionTiendaComponent } from './componentes/maquetacion/maquetacio
 import { LoginComponent } from './componentes/usuarios/login/login.component';
 import { RegistroComponent } from './componentes/usuarios/registro/registro.component';
 import { ConfirmacionRegistroComponent } from './componentes/usuarios/confirmacion-registro/confirmacion-registro.component';
+
 export const routes: Routes = [
 
     {

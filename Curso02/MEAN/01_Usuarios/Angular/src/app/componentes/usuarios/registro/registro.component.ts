@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ServicioAlmacenamiento } from '../../../util/servicioAlmacenamiento';
 
 @Component({
   selector: 'app-registro',
@@ -11,9 +12,12 @@ import { RouterLink } from '@angular/router';
 export class RegistroComponent {
 
   public formulario:FormGroup
+  public errorConfirmarPassword:string = ''
 
-  constructor(
-      formBuilder:FormBuilder
+  public constructor(
+      formBuilder:FormBuilder,
+      private router:Router,
+      private servicioAlmacenamiento:ServicioAlmacenamiento
     ) {
 
     /*No estamos obligados a utilizar el formBuilder:
@@ -37,10 +41,24 @@ export class RegistroComponent {
 
   }
 
+  public siguiente(){
 
+    this.formulario.markAllAsTouched()
+    let valorFormulario = this.formulario.value
 
+    if(valorFormulario.password != valorFormulario.confirmarPassword){
+      this.errorConfirmarPassword = "Los password no coinciden."
+      return
+    } 
+    this.errorConfirmarPassword = ''
 
+    if(this.formulario.invalid){
+      return
+    }
 
-
+    //guardar y navegar
+    this.servicioAlmacenamiento.setItem("datosRegistro", valorFormulario)
+    this.router.navigateByUrl("/confirmacion")
+  }
 
 }
