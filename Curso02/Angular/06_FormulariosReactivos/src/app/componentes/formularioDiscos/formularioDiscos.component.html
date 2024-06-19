@@ -1,0 +1,93 @@
+<h3 class="text-center mt-3 mb-3">
+    Formulario de Discos
+</h3>
+
+<div class="text-center"> 
+    <button class="btn btn-primary m-1" (click)="insertar()">Insertar</button>
+    <button class="btn btn-primary m-1">Modificar</button>
+    <button class="btn btn-danger  m-1">Borrar</button>
+    <button class="btn btn-warning m-1" (click)="vaciar()">Vaciar</button>
+    <button class="btn btn-warning m-1" routerLink="/listadoDiscos">Volver</button>
+</div>
+
+<br/>
+
+<!-- 
+Para utilizar los formularios reactivos necesitamos una etiqueta 'form' 
+Este form jamás hará un submit
+
+Unimos el formulario con el formGroup del componente con [formGroup]
+-->
+<form class="row" [formGroup]="formulario">
+    <div class="col-sm-12 col-md-2 mt-1">
+        <label for="titulo">Título</label>
+    </div>
+    <div class="col-sm-12 col-md-10 mt-1">
+        <!--
+        Los elementos del formulario que queramos unir al objeto formGroup los marcamos con 'formControlName'
+        -->
+        <input id="titulo" formControlName="titulo" class="form-control"/>
+
+        @if(formulario.get('titulo')?.dirty || formulario.get('titulo')?.touched) {
+        <div>
+            @if(formulario.get('titulo')?.hasError('required')){
+            <small class="text-danger">
+                El título es obligatorio.
+            </small>
+            }
+        </div>
+        }
+
+    </div>
+    
+    <div class="col-sm-12 col-md-2 mt-1">
+        <label for="grupo">Grupo</label>
+    </div>
+    <div class="col-sm-12 col-md-10 mt-1">
+        <input id="grupo" formControlName="grupo" class="form-control"/>
+        @if(formulario.get('grupo')?.dirty || formulario.get('grupo')?.touched) {
+        <div>
+            @if(formulario.get('grupo')?.hasError('required')){
+            <small class="text-danger">
+                El título es obligatorio.
+            </small>
+            }
+        </div>
+        }        
+    </div>                 
+    
+    <div class="col-sm-12 col-md-2 mt-1">
+        <label for="year">Año</label>
+    </div>
+    <div class="col-sm-12 col-md-10 mt-1">
+        <input id="year" formControlName="year" class="form-control"/>
+        @if(formulario.get('year')?.dirty || formulario.get('year')?.touched) {
+        <div>
+            @if(formulario.get('year')?.hasError('required')){
+                <small class="text-danger">
+                El año es obligatorio.
+            </small>
+            }
+            @if(formulario.get('year')?.hasError('pattern')){
+            <small class="text-danger">
+                El año debe ser un numero de cuatro cifras.
+            </small>
+            }
+        </div>  
+        }      
+    </div>
+    
+    <div class="col-sm-12 col-md-2 mt-1">
+        <label for="genero">Género</label>
+    </div>
+    <div class="col-sm-12 col-md-10 mt-1">
+        <input id="genero" formControlName="genero" class="form-control"/>
+    </div>
+
+    <div class="col-sm-12 col-md-2 mt-1">
+        <label for="escort">Notas</label>
+    </div>
+    <div class="col-sm-12 col-md-10 mt-1">
+        <textarea id="escort" formControlName="notas" class="form-control"></textarea>
+    </div>
+</form>    

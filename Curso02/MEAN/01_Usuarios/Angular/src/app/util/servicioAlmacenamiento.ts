@@ -6,7 +6,7 @@ import { Injectable } from "@angular/core";
 })
 export class ServicioAlmacenamiento {
 
-    public almacenamientoMemoria:any[string] = []
+    private almacenamientoMemoria:any[string] = []
 
     public setItem(clave:string, valor:any):void {
         this.almacenamientoMemoria[clave] = valor
@@ -18,6 +18,14 @@ export class ServicioAlmacenamiento {
 
     public removeItem(clave:string):void {
         delete this.almacenamientoMemoria[clave]
+    }
+
+    public clear(){
+        /* por si necesitaramos quedarnos con el mismo array 
+        for(let clave in this.almacenamientoMemoria){
+            delete this.almacenamientoMemoria[clave]
+        }*/
+        this.almacenamientoMemoria = []
     }
 
 }
