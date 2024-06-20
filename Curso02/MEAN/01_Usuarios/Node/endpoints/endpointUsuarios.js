@@ -15,8 +15,26 @@ exports.router = router;
 
 // FUNCIONES DE LOGICA DE CONTROL
 
-function insertarUsuario(request, response){
+/* 
+POST /usuarios
+Content-type: application/json
+*/
 
+function insertarUsuario(request, response){
+    let usuario = request.body;
+
+    negocioUsuario.insertarUsuario(usuario)
+    .then( resultado => {
+        response
+            .status(201)
+            .json(resultado)
+    } )
+    .catch( error => {
+        console.log(error);
+        response
+        .status(error.codigo)
+        .json(error)
+    } )
 }
 
 function modificarUsuario(request, response){

@@ -23,20 +23,23 @@ exports.insertarUsuario = function(usuario){
         // comprobar que el login 
         // insertar el usuario
 
-        if(usuario.login || usuario.login.trim() == ""){
+        if(!usuario.login || usuario.login.trim() == "" ||
+        !usuario.correoE ||  usuario.correoE.trim() == "" ||
+        !usuario.nombre || usuario.nombre.trim() == ""){
             reject(crearError(400, "Datos invalidos"));
             return;
         }
 
         exports.buscarPorLogin(usuario.login)
-        .then( usuario => {
+        .then( usuarioEncontrado => {
             // Si se ha encontrado significa que no se debe insertar
-            if(usuario){
+            if(usuarioEncontrado){
                 reject( crearError(400, "Ya existe el login"));
                 return;
             }
 
-            return mongodbUtil.esquema.collection("usuario").insertOne(usuario);
+            delete usuario._id;
+            return mongodbUtil.esquema.collection("usuarios").insertOne(usuario);
         })
         .then(resultado => {
             resolve(resultado);

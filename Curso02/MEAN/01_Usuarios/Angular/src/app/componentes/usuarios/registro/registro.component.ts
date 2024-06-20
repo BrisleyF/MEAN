@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ServicioAlmacenamiento } from '../../../util/servicioAlmacenamiento';
-import { ServicioUsuarios } from '../../../servicios/servicioUsario';
+import { ServicioUsuarios } from '../../../modelo/servicios/servicioUsario';
 
 @Component({
   selector: 'app-registro',
