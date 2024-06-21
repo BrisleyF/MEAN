@@ -1,3 +1,3 @@
 export const configuracion:any = {
-    urlServicio : "http://localhost:7000"
+    urlServicio : "https://localhost:7000"
 }

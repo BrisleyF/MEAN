@@ -1,10 +1,12 @@
 require("./util/configuracion")
 const express = require('express')
-const http = require('http')
+const https = require('https')
 const mongodbUtil = require('./util/mongodbUtil')
 const interceptorCORS = require('./middleware/interceptorCORS').interceptorCORS
 const interceptorLog = require('./middleware/interceptorLog').interceptorLog
 const usuariosRouter = require('./endpoints/endpointUsuarios').router;
+const autenticacionRouter = require("./autenticacion/loginRouter").router;
+const getCertificado = require("./util/certUtil").getCertificado;
 
 mongodbUtil.conectar()
     .then(() => {
@@ -22,15 +24,16 @@ function arrancarServidor(){
         limit: '5mb' //Tamaño máximo del body que estamos dispuestos a leer. IMPRESCINDIBLE
     }))
 
+    app.use(autenticacionRouter);
     app.use(usuariosRouter);
 
     app.disable("x-powered-by");
 
     let puerto = process.env["http.puerto"]
-    http.createServer(app)
+    https.createServer(getCertificado(), app)
         .listen(
                 puerto, 
-                () => console.log("Esperando peticiones en el puerto "+puerto)
+                () => console.log("Esperando peticiones https en el puerto "+puerto)
             )
 }
 
