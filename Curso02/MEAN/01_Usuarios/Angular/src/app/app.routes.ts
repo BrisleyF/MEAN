@@ -4,6 +4,7 @@ import { MaquetacionTiendaComponent } from './componentes/maquetacion/maquetacio
 import { LoginComponent } from './componentes/usuarios/login/login.component';
 import { RegistroComponent } from './componentes/usuarios/registro/registro.component';
 import { ConfirmacionRegistroComponent } from './componentes/usuarios/confirmacion-registro/confirmacion-registro.component';
+import { PerfilComponent } from './componentes/usuarios/perfil/perfil.component';
 
 export const routes: Routes = [
 
@@ -27,7 +28,13 @@ export const routes: Routes = [
     },
     {
         path: 'tienda',
-        component: MaquetacionTiendaComponent
+        component: MaquetacionTiendaComponent,
+        children: [
+            {
+                path: 'perfil',
+                component: PerfilComponent
+            },
+        ]
     }
 
 ];

@@ -37,8 +37,28 @@ function insertarUsuario(request, response){
     } )
 }
 
-function modificarUsuario(request, response){
 
+// PUT /usuarios/:id
+function modificarUsuario(request, response){
+    let idUsuario = request.params.id;
+    let usuario = request.body;
+
+    if(usuario._id != idUsuario){
+        response.status(400).json("Que cojones estas haciendo con los id");
+        return;
+    }
+    
+
+    negocioUsuario.modificarUsuario(usuario)
+    .then( () => {
+        response.json({ mensaje: "El usuario se modifico correctamente"})
+    })
+    .catch( error => {
+        console.log(error);
+        response
+            .status(error.codigo)
+            .json(error)
+    })
 }
 
 function bajaUsuario(request, response){

@@ -45,7 +45,7 @@ function login(request, response){
 
         let respuesta = {
             jwt      : token,
-            usuarios : usuario
+            usuario : usuario
         }
 
         delete usuario.password;
