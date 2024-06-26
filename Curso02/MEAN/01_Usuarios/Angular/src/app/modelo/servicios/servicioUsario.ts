@@ -20,4 +20,8 @@ export class ServicioUsuarios {
     public insertarUsuario(usuario:Usuario):Observable<any>{
         return this.httpClient.post(configuracion.urlServicio+"/usuarios", usuario);
     }
+
+    public modificarUsuario(usuario:Usuario):Observable<any>{
+        return this.httpClient.put(configuracion.urlServicio+"/usuarios/"+usuario._id, usuario);
+    }
 }
