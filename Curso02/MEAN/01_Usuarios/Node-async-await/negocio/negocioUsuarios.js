@@ -1,4 +1,5 @@
 const mongodbUtil = require('../util/mongodbUtil')
+const ObjectId = require("mongodb").ObjectId
 const crearError = require("../util/errorUtil").crearError
 
 
@@ -12,7 +13,7 @@ exports.buscarPorLogin = function(login){
             console.log(error)
             reject( crearError(500, "Error con la base de datos"))
         })
-   })
+})
 }
 */
 
@@ -42,6 +43,10 @@ exports.insertarUsuario = async function (usuario) {
 		if (usuarioEncontrado) {
 			throw crearError(400, "Ya existe el login");
 		}
+
+        // Le asignamos el rol al usuario
+        usuario.rol = "CLIENTE";
+
 		//QUITAR EL _ID
 		delete usuario._id;
 		//calcular el hash del password y guardar el hash
@@ -61,18 +66,16 @@ exports.insertarUsuario = async function (usuario) {
 //Autorización :
 //-empleados: pueden modificar cualquier usuario
 //-clientes : solo pueden modificarse a si mismos
-exports.modificarUsuario = function(usuario){
-    
-    return new Promise(function(resolve, reject){
+exports.modificarUsuario = async function(usuario){
 
+		console.log(usuario);
         //Validación
-        if(!usuario.login     || usuario.login.trim()     == "" || 
-           !usuario.correoE   || usuario.correoE.trim()   == "" || 
-           !usuario.nombre    || usuario.nombre.trim()    == "" ||
-           !usuario.direccion || usuario.direccion.trim() == "" ||
-           !usuario.telefono  || usuario.telefono.trim()  == "" ){
-            reject( crearError(400, "Datos inválidos") )
-            return //pa no seguir
+        if(	!usuario.login     || usuario.login.trim()     == "" || 
+			!usuario.correoE   || usuario.correoE.trim()   == "" || 
+			!usuario.nombre    || usuario.nombre.trim()    == "" ||
+			!usuario.direccion || usuario.direccion.trim() == "" ||
+			!usuario.telefono  || usuario.telefono.trim()  == "" ){
+            throw crearError(400, "Datos inválidos")
         }     
                     
         //Autorización 
@@ -84,32 +87,34 @@ exports.modificarUsuario = function(usuario){
         }
         */
     
-        //Modificar 
-        mongodbUtil.esquema.collection("usuarios").findOneAndUpdate( 
-                { _id : new ObjectId(usuario._id) },
-                {
-                    $set : {
-                        //Aqui no podemos colocar el _id (es inmutable)
-                        nombre    : usuario.nombre,
-                        correoE   : usuario.correoE,
-                        telefono  : usuario.telefono,
-                        direccion : usuario.direccion
-                    }
-                }
-            ) 
-        .then( resultado => {
-            if(!resultado.value){
-                reject(crearError(404, "El usuario no existe"))
-                return
-            }
-            resolve()
-        })
-        .catch( error => {
-            console.log(error)
-            reject(crearError(500, "Error con la base de datos"))
-        })
+        try {
+          //Modificar
+			let resultado = await mongodbUtil.esquema.collection("usuarios").findOneAndUpdate(
+				{ _id: ObjectId.createFromHexString(usuario._id) },
+				{
+                $set: {
+                  //Aqui no podemos colocar el _id (es inmutable)
+					nombre: usuario.nombre,
+					correoE: usuario.correoE,
+					telefono: usuario.telefono,
+					direccion: usuario.direccion,
+                },
+				}
+            );
 
-    })
+			if (!resultado) {
+				throw crearError(404, "El usuario no existe");
+			}
+        } catch (error) {
+			if (error.codigo) {
+				throw error;
+			}
+			console.log(error);
+			throw crearError(500, "Error con la base de datos");
+        }
+
+
+
 
 }
 

@@ -6,8 +6,8 @@ const { crearError } = require("../util/errorUtil")
 const router = require("express").Router()
 
 router.post('/usuarios', insertarUsuario)
-router.put('/usuarios/:id', modificarUsuario)
-router.delete('/usuarios/:id', bajaUsuario)
+router.put('/seguro/usuarios/:id', modificarUsuario)
+router.delete('/seguro/usuarios/:id', bajaUsuario)
 router.head('/usuarios', comprobarLoginUsuario)
 
 exports.router = router
@@ -40,6 +40,7 @@ async function insertarUsuario(request, response){
 
 //PUT /usuarios/87
 //CT: app/json
+//Autorizacion: Bearer token
 //----------------
 //{
 //  _id       : 101,

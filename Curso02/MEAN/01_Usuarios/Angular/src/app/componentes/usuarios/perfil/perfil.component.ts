@@ -59,7 +59,7 @@ export class PerfilComponent {
     console.log(datosFormulario);
 
     let usuario:Usuario = this.servicioAutenticacion.getUsuario()
-    usuario.correoE = datosFormulario.correE
+    usuario.correoE = datosFormulario.correoE
     usuario.direccion = datosFormulario.direccion
     usuario.telefono = datosFormulario.telefono
     usuario.nombre = datosFormulario.nombre

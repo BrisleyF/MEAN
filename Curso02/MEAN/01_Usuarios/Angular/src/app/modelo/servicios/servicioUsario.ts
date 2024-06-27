@@ -1,3 +1,4 @@
+import { ServicioAutenticacion } from './servicioAutenticacion';
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -10,7 +11,10 @@ import { configuracion } from "../../util/configuracion";
 })
 
 export class ServicioUsuarios {
-    constructor(private httpClient:HttpClient){
+    constructor(
+        private httpClient:HttpClient,
+        //private ServicioAutenticacion:ServicioAutenticacion
+    ){
     }
 
     public comprobarLogin(login:string):Observable<any> {
@@ -22,6 +26,11 @@ export class ServicioUsuarios {
     }
 
     public modificarUsuario(usuario:Usuario):Observable<any>{
-        return this.httpClient.put(configuracion.urlServicio+"/usuarios/"+usuario._id, usuario);
+        //El interceptor se encarga de añadir el header authorization a las peticiones
+        return this.httpClient.put(
+            configuracion.urlServicio+"/seguro/usuarios/"+usuario._id,
+            usuario,
+            //{ headers: { Authorization : "Bearer "+this.ServicioAutenticacion.getJWT()} }
+        );
     }
 }

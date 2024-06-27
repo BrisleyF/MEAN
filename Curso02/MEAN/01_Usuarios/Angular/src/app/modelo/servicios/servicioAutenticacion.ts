@@ -13,10 +13,14 @@ export class ServicioAutenticacion {
 
     // Login
     // Logout
-
+    
     public getUsuario():Usuario{
         //console.log(sessionStorage.getItem("usuario"))
         return JSON.parse(sessionStorage.getItem("usuario") ?? "");
+    }
+    
+    public getJWT():string {
+        return sessionStorage.getItem("JWT") ?? ""
     }
 
     public login(credenciales:any):Observable<any>{
