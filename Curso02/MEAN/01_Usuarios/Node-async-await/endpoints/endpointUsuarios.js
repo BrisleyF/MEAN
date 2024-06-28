@@ -56,7 +56,9 @@ function modificarUsuario(request, response){
         return
     }
 
-    negocioUsuarios.modificarUsuario(usuario)
+    let autoridad = request.autoridad;
+
+    negocioUsuarios.modificarUsuario(usuario, autoridad)
     .then( () => {
         response.json({ mensaje : "El usuario se modificó correctamente" })
     })

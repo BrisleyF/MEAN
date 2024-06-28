@@ -66,7 +66,7 @@ exports.insertarUsuario = async function (usuario) {
 //Autorización :
 //-empleados: pueden modificar cualquier usuario
 //-clientes : solo pueden modificarse a si mismos
-exports.modificarUsuario = async function(usuario){
+exports.modificarUsuario = async function(usuario, autoridad){
 
 		console.log(usuario);
         //Validación
@@ -77,15 +77,13 @@ exports.modificarUsuario = async function(usuario){
 			!usuario.telefono  || usuario.telefono.trim()  == "" ){
             throw crearError(400, "Datos inválidos")
         }     
-                    
+
         //Autorización 
-        /*
+        
         if(autoridad.rol=="CLIENTE" && autoridad._id!=usuario._id){                        
-            reject( { codigo:403, 
-                        mensaje:'Los clientes solo pueden modificarse a si mismos' } ) //Mal
-            return
+            throw crearError(403,'Los clientes solo pueden modificarse a si mismos')
         }
-        */
+        
     
         try {
           //Modificar
