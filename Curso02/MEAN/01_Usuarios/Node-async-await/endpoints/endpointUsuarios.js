@@ -71,8 +71,16 @@ function modificarUsuario(request, response){
 
 }
 
-function bajaUsuario(request, response){
-
+async function bajaUsuario(request, response){
+    try {
+        let autoridad = request.autoridad;
+        let idUsuario = request.params.id;
+        await negocioUsuarios.borrarUsuario(idUsuario, autoridad);
+        response.json({codigo:200, mensaje: "El cliente se ha borrado correctamente"});
+    } catch (error) {
+        console.log(error)
+        response.status(error.codigo).json(error);
+    }
 }
 
 //HEAD /usuarios?login=xXx/

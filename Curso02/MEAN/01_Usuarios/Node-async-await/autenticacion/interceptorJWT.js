@@ -59,7 +59,7 @@ exports.interceptorJWT = function(request, response, next){
 
     try {
         let payload = jwt.verify(token, JWTUtil.getClaveJWT()) //, {algorithm: 'HS512'})
-        request.autoridad = payload
+        request.autoridad = payload;
     } catch(err){
         console.log(err);
         response.status(401).json( crearError(401, err.message) )
