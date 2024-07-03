@@ -1,9 +1,8 @@
-import { HttpEvent, HttpEventType, HttpHandlerFn, HttpRequest } from "@angular/common/http";
-import { Observable, tap } from "rxjs";
+import { HttpEvent, HttpHandlerFn, HttpRequest } from "@angular/common/http";
+import { Observable } from "rxjs";
 import { inject } from "@angular/core";
 import { ServicioAutenticacion } from "../modelo/servicios/servicioAutenticacion";
 import { configuracion } from "../util/configuracion";
-
 
 export function interceptorJWT(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 
@@ -11,12 +10,13 @@ export function interceptorJWT(req: HttpRequest<unknown>, next: HttpHandlerFn): 
 
   //Solo añadiremos el header authorization si es necesario
   if(!req.url.startsWith(configuracion.urlServicio+"/seguro")){
-    return next(req);
+    console.log("Esta va sin token")
+    return next(req)
   }
-
+  
+  console.log("Esta va con token")
   //Utilizamos la funcion 'inject' para acceder al servicio
   let JWT = inject(ServicioAutenticacion).getJWT()
-  console.log("esta va con token");
 
   //En Angular el objeto request es inmutable. 
   //No podemos modificarlo para añadirle (por ejemplo) un header
@@ -28,4 +28,5 @@ export function interceptorJWT(req: HttpRequest<unknown>, next: HttpHandlerFn): 
     })  
   
   return next(nuevoReq)
+
 }

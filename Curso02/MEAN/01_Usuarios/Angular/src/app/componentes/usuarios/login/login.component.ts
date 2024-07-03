@@ -15,10 +15,9 @@ export class LoginComponent {
   public formulario:FormGroup
 
   constructor(
-    private servicioAutenticacion:ServicioAutenticacion,
-    private router:Router
-
-  ){
+      private servicioAutenticacion:ServicioAutenticacion,
+      private router:Router
+    ){
     this.formulario = new FormGroup({
         login    : new FormControl('', [ Validators.required ]),
         password : new FormControl('', [ Validators.required ]),
@@ -37,7 +36,7 @@ export class LoginComponent {
       next: (X:any) => this.router.navigateByUrl("/tienda"),
       error: (error) => {
         console.log(error)
-        this.mostrarError = true;
+        this.mostrarError = true
       }
     })
 

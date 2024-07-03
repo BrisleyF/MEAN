@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ServicioAutenticacion } from '../../../modelo/servicios/servicioAutenticacion';
-import { ServicioUsuarios } from '../../../modelo/servicios/servicioUsario';
-import { Usuario } from '../../../modelo/entidades/usuarios';
+import { Usuario } from '../../../modelo/entidades/usuario';
+import { ServicioUsuarios } from '../../../modelo/servicios/servicioUsuarios';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil',
@@ -14,10 +15,9 @@ export class PerfilComponent {
 
   public formulario:FormGroup 
 
-  constructor(
-    private servicioAutenticacion:ServicioAutenticacion,
-    private servicioUsuarios:ServicioUsuarios
-  ){
+  constructor(private servicioAutenticacion:ServicioAutenticacion,
+              private servicioUsuarios:ServicioUsuarios,
+              private router:Router){
     this.formulario = new FormGroup({
       nombre            : new FormControl('', [ Validators.required ]),
       correoE           : new FormControl('', [ Validators.required, Validators.email ]),        
@@ -26,8 +26,7 @@ export class PerfilComponent {
     }) 
     
     //let datosUsuario = sessionStorage.getItem("usuario")
-    let usuario = servicioAutenticacion.getUsuario()
-
+    let usuario:Usuario = servicioAutenticacion.getUsuario()
     //podemos pasa los datos al formGroup formControl a formControl...
     //this.formulario.get('nombre')?.setValue(usuario.nombre)
     //this.formulario.get('correoE')?.setValue(usuario.correoE)
@@ -44,37 +43,40 @@ export class PerfilComponent {
 
   }
 
-  
   public guardar():void{
 
-    this.formulario.markAsTouched();
+    this.formulario.markAllAsTouched()
     if(this.formulario.invalid){
       console.log("datos invalidos")
       console.log(this.formulario.errors)
       return
     }
 
-    // el formulario no tiene todos los datos del usuario, solo los que se pueden cambiar.
+    //El formulario no tiene todos los datos del usuario. Solo tiene los que se pueden cambiar
     let datosFormulario = this.formulario.value
-    console.log(datosFormulario);
-
     let usuario:Usuario = this.servicioAutenticacion.getUsuario()
-    usuario.correoE = datosFormulario.correoE
+    usuario.correoE   = datosFormulario.correoE
     usuario.direccion = datosFormulario.direccion
-    usuario.telefono = datosFormulario.telefono
-    usuario.nombre = datosFormulario.nombre
+    usuario.telefono  = datosFormulario.telefono
+    usuario.nombre    = datosFormulario.nombre
 
     this.servicioUsuarios.modificarUsuario(usuario)
     .subscribe({
       next : resultado => console.log(resultado),
       error : error => console.log(error)
-    }) 
+    })
 
   }
 
   public bajaUsuario():void{
-
+    this.servicioUsuarios.borrarUsuario()
+    .subscribe({
+      next: () => this.router.navigateByUrl("/"),
+      error: error => {
+        console.log(error)
+        alert("Fallo al borrar el usuario")
+      }
+    })
   }
-
 
 }

@@ -1,6 +1,7 @@
+import { ServicioAutenticacion } from '../../../modelo/servicios/servicioAutenticacion';
 import { Component } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
 import { MenuComponent } from '../../tienda/menu/menu.component';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-maquetacion-tienda',
@@ -10,10 +11,20 @@ import { MenuComponent } from '../../tienda/menu/menu.component';
 })
 export class MaquetacionTiendaComponent {
 
-  public constructor(public router:Router){
-    // Es este componente el que debe decidir que se mostrara en la tienda
+  constructor(
+    private router:Router,
+    private ServicioAutenticacion:ServicioAutenticacion
+  ){
+    //No es responsabilidad de este componente el impedir que el usuario
+    //navege utilizando las guardas.
+    if(ServicioAutenticacion.getJWT() == ""){
+      console.log("ANDE VAS");
+      router.navigateByUrl("/");
+      return;
+    }
+
+    //Es este componente el que deide que se verá nada más entrar a la tienda
     router.navigateByUrl("/tienda/perfil")
   }
-
 
 }

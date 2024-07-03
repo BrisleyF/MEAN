@@ -1,24 +1,42 @@
-import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnDestroy } from '@angular/core';
 import { ServicioAutenticacion } from '../../../modelo/servicios/servicioAutenticacion';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { Usuario } from '../../../modelo/entidades/usuario';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [],
-  templateUrl: './menu.component.html',
+  imports: [RouterLink],
+  templateUrl: './menu.component.html'
 })
-export class MenuComponent {
+export class MenuComponent implements OnDestroy {
+
+  public nombre:string = ''
+  private subscription:Subscription
 
   constructor(
-    private servicioAutenticacion:ServicioAutenticacion,
-    private router:Router
-  ){}
+      private servicioAutenticacion:ServicioAutenticacion,
+      private router:Router
+    ){
+    //let usuario:Usuario = servicioAutenticacion.getUsuario()
+    //this.nombre = usuario.nombre
+    //this.nombre = servicioAutenticacion.getUsuario().nombre
 
-  public usuario = this.servicioAutenticacion.getUsuario()
+    this.subscription = servicioAutenticacion.getSubjectUsuario()
+      .subscribe({
+        next : (usuario:Usuario) => { this.nombre = usuario.nombre},
+        error: (error) => console.log(error)
+      })
+  }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
 
   public logout():void{
-    this.servicioAutenticacion.logout();
-    this.router.navigateByUrl("/");
+    //this.subscription.unsubscribe;
+    this.servicioAutenticacion.logout()
+    this.router.navigateByUrl("/")
   }
+
 }

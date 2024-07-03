@@ -1,14 +1,13 @@
 const negocioUsuarios = require("../negocio/negocioUsuarios")
-const { crearError } = require("../util/errorUtil")
 //const express = require("express")
 //let router = express.Router()
 //router.get('/usuarios', ...)
 const router = require("express").Router()
 
+router.head('/usuarios',comprobarLoginUsuario)
 router.post('/usuarios', insertarUsuario)
 router.put('/seguro/usuarios/:id', modificarUsuario)
 router.delete('/seguro/usuarios/:id', bajaUsuario)
-router.head('/usuarios', comprobarLoginUsuario)
 
 exports.router = router
 
@@ -30,20 +29,21 @@ async function insertarUsuario(request, response){
         response
             .status(201)
             .json(resultado)
-    } catch (error) {
+    } catch (error){
         console.log(error)
         response
             .status(error.codigo)
-            .json(error)        
+            .json(error)         
     }
+
 }
 
 //PUT /usuarios/87
 //CT: app/json
-//Autorizacion: Bearer token
+//Authorization: Bearer fhgruygueueudutr.6t875uguhhedhrh.rjgtjfdrjfuj548t8
 //----------------
 //{
-//  _id       : 101,
+//  _id       : 87,
 //  nombre    : "Bartolo"
 //  direccion : ...
 //}
@@ -56,8 +56,7 @@ function modificarUsuario(request, response){
         return
     }
 
-    let autoridad = request.autoridad;
-
+    let autoridad = request.autoridad
     negocioUsuarios.modificarUsuario(usuario, autoridad)
     .then( () => {
         response.json({ mensaje : "El usuario se modificó correctamente" })
@@ -71,21 +70,7 @@ function modificarUsuario(request, response){
 
 }
 
-async function bajaUsuario(request, response){
-    try {
-        let autoridad = request.autoridad;
-        let idUsuario = request.params.id;
-        await negocioUsuarios.borrarUsuario(idUsuario, autoridad);
-        response.json({codigo:200, mensaje: "El cliente se ha borrado correctamente"});
-    } catch (error) {
-        console.log(error)
-        response.status(error.codigo).json(error);
-    }
-}
-
-//HEAD /usuarios?login=xXx/
 async function comprobarLoginUsuario(request, response){
-
     let login = request.query.login
     if(!login){
         response.status(400).end("Falta el login")
@@ -99,16 +84,26 @@ async function comprobarLoginUsuario(request, response){
         } else {
             response
                 .status(404)
-                .json({ codigo:404, mensaje: "No existe un usuario con ese login"})            
-        }  
-    } catch (error) {
-        console.log(error);
+                .json({ codigo:404, mensaje: "No existe un usuario con ese login"})         
+        }
+    }catch(error) {
+        console.log(error)
         response
             .status(error.codigo)
             .json(error)
     }
-
 }
 
-
+//DELETE /seguro/usuarios/:id
+async function bajaUsuario(request, response){
+    try {
+        let autoridad = request.autoridad
+        let idUsuario = request.params.id
+        await negocioUsuarios.borrarUsuario(idUsuario, autoridad)
+        response.json({ codigo:200, mensaje:'El cliente se ha borrado correctamente'})
+    } catch ( error ) {
+        console.log(error)
+        response.status(error.codigo).json(error)
+    }    
+}
 

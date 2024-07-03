@@ -31,8 +31,8 @@ exports.interceptorJWT = function(request, response, next){
     // :(
     let urlSinParametros = request.url.split("?")[0]
     if((request.method=="POST" && urlSinParametros == "/login")    || 
-        (request.method=="POST" && urlSinParametros == "/usuarios") ||
-        (request.method=="HEAD" && urlSinParametros == "/usuarios") ){
+       (request.method=="POST" && urlSinParametros == "/usuarios") ||
+       (request.method=="HEAD" && urlSinParametros == "/usuarios") ){
         next()
         return //pa no seguir
     } 
@@ -59,9 +59,8 @@ exports.interceptorJWT = function(request, response, next){
 
     try {
         let payload = jwt.verify(token, JWTUtil.getClaveJWT()) //, {algorithm: 'HS512'})
-        request.autoridad = payload;
+        request.autoridad = payload
     } catch(err){
-        console.log(err);
         response.status(401).json( crearError(401, err.message) )
         return 
     }

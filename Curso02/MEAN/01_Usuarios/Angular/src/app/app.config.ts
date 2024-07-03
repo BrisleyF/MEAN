@@ -11,7 +11,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(
       withFetch(),
-      withInterceptors([ interceptorJWT, interceptorLog])
+      withInterceptors([ interceptorLog, interceptorJWT ])
     )
   ]
 };

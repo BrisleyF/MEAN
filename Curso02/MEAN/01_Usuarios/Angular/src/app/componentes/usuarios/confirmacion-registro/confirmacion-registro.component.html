@@ -17,20 +17,19 @@
   A gramenawer sit amet jarl aliqua officia commodo condemor no puedor va usté muy cargadoo ese que llega. Te voy a borrar el cerito veniam aliquip a peich commodo nostrud benemeritaar ahorarr no puedor pupita aute. Caballo blanco caballo negroorl consectetur mamaar hasta luego Lucas te voy a borrar el cerito quietooor. Dolor te va a hasé pupitaa quietooor sed veniam ese pedazo de ut la caidita diodenoo se calle ustée. Aliquip pecador no te digo trigo por no llamarte Rodrigor occaecat jarl.
 </p>
 
-  @if(!terminosAceptados) {
-    <div class="alert alert-danger">Debe aceptar los terminos</div>
+  @if(!terminosAceptados){
+    <div class="alert alert-danger">Debe aceptar los términos.</div>
   }
-
 
 <div class="text-center tm-3">
     <label class="control-label ms-2">Acepto</label>
 
-    <input class="ms-2" type="checkbox" [(ngModel)]="terminosAceptados"/>
+    <input class="ms-2" type="checkbox" [(ngModel)]="terminosAceptados"/>  
 
     <button class="btn ms-2 btn-warning" 
             style="width:110px"
             routerLink="/registro">Volver</button>
-    <button class="btn ms-2 btn-success"
+    <button class="btn ms-2 btn-success" 
             style="width:110px" 
             [disabled]="!terminosAceptados"
             (click)="registrarUsuario()">Registrar</button>
