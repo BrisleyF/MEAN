@@ -30,11 +30,12 @@ export class MenuComponent implements OnDestroy {
       })
   }
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    console.log("cancelando la subscripcion");
+    this.subscription.unsubscribe();
   }
 
   public logout():void{
-    //this.subscription.unsubscribe;
+    //this.subscription.unsubscribe();
     this.servicioAutenticacion.logout()
     this.router.navigateByUrl("/")
   }
