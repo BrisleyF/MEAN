@@ -1,6 +1,6 @@
 //npm install jsonwebtoken
 const jwt = require("jsonwebtoken")
-const negocioUsuarios = require("../negocio/negocioUsuarios")
+const negocioUsuarios = require("../modelo/negocio/negocioUsuarios")
 const crearError = require("../util/errorUtil").crearError
 const getClaveJWT = require("../util/JWTUtil").getClaveJWT
 //const Router = require("express").Router

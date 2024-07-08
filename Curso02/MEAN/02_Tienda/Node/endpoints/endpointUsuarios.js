@@ -1,4 +1,4 @@
-const negocioUsuarios = require("../negocio/negocioUsuarios")
+const negocioUsuarios = require("../modelo/negocio/negocioUsuarios")
 //const express = require("express")
 //let router = express.Router()
 //router.get('/usuarios', ...)

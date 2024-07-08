@@ -1,7 +1,7 @@
 require("./util/configuracion")
 const express = require('express')
 const https = require('https')
-const mongodbUtil = require('./util/mongodbUtil')
+const mongooseUtil = require('./util/mongooseUtil')
 const interceptorCORS = require('./middleware/interceptorCORS').interceptorCORS
 const interceptorLog = require('./middleware/interceptorLog').interceptorLog
 const interceptorJWT = require('./autenticacion/interceptorJWT').interceptorJWT
@@ -9,10 +9,11 @@ const usuariosRouter = require('./endpoints/endpointUsuarios').router
 const autenticacionRouter = require('./autenticacion/loginRouter').router
 const getCertificado = require('./util/certUtil').getCertificado
 
-mongodbUtil.conectar()
-    .then(() => {
-        arrancarServidor()
-    })
+mongooseUtil.conectar()
+    //.then(() => {
+    //    arrancarServidor()
+    //})
+    .then(arrancarServidor)
     .catch( error => {
         console.log(error)
         console.log("No se pudo conectar a la bb.dd")

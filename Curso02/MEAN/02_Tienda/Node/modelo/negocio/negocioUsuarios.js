@@ -1,10 +1,12 @@
-const ObjectId = require("mongodb").ObjectId
-const mongodbUtil = require('../util/mongodbUtil')
-const crearError = require("../util/errorUtil").crearError
+let mongoose = require("mongoose")
+const Usuario = require("../entidades/usuario").Usuario
+const UsuarioHistorico = require("../entidades/usuarioHistorico").UsuarioHistorico
+const crearError = require("../../util/errorUtil").crearError
 
 exports.buscarPorLogin = async function(login){
     try {
-        return await mongodbUtil.esquema.collection("usuarios").findOne({ login : login })
+        //return await mongodbUtil.esquema.collection("usuarios").findOne({ login : login })
+        return await Usuario.findOne({ login : login })
     } catch (error) {
         console.log(error)
         throw crearError(500, "Error con la base de datos")
@@ -26,14 +28,18 @@ exports.insertarUsuario = async function(usuario){
             throw crearError(400, "Ya existe el login") 
         }
 
-        //Le asignamos el rol al usuario
+        //Le asignamos el rol y la fecha de alta al usuario
         usuario.rol = "CLIENTE"
+        usuario.fechaAlta = Date.now()
         
         //QUITAR EL _ID
         delete usuario._id
         //calcular el hash del password y guardar el hash
         //insertar el usuario
-        return await mongodbUtil.esquema.collection("usuarios").insertOne(usuario)
+
+        //return await mongodbUtil.esquema.collection("usuarios").insertOne(usuario)
+        let usuarioMG = new Usuario(usuario)
+        return await usuarioMG.save()
     } catch ( error ){
         if(error.codigo){
             throw error
@@ -65,12 +71,11 @@ exports.modificarUsuario = async function(usuario, autoridad){
     
     try {
         //Modificar 
-        let resultado = await mongodbUtil.esquema.collection("usuarios").findOneAndUpdate( 
-                //{ _id : new ObjectId(usuario._id) },
-                { _id : ObjectId.createFromHexString(usuario._id) },
+        //let resultado = await mongodbUtil.esquema.collection("usuarios").findOneAndUpdate( 
+        let resultado = await Usuario.findByIdAndUpdate( 
+                usuario._id,                
                 {
                     $set : {
-                        //Aqui no podemos colocar el _id (es inmutable)
                         nombre    : usuario.nombre,
                         correoE   : usuario.correoE,
                         telefono  : usuario.telefono,
@@ -100,7 +105,7 @@ exports.borrarUsuario = async function(idUsuario, autoridad){
     let session 
     try {
         //INICIO DE LA TX
-        session = mongodbUtil.esquema.client.startSession()
+        session = await mongoose.startSession();
         session.startTransaction()
 
         //Autorización
@@ -108,17 +113,30 @@ exports.borrarUsuario = async function(idUsuario, autoridad){
             throw crearError(403, "Los clientes solo pueden darse de baja a si mismos")
         }
 
-        let usuario = await mongodbUtil.esquema.collection("usuarios")
-            .findOne({ _id : ObjectId.createFromHexString(idUsuario)})
+        //Este find by id no necesita estár dentro de la transacción
+        let usuario = await Usuario.findById(idUsuario)
+        //Pero si la unimos a la sesión tampoco pasa nada
+        //let usuario = await Usuario.findById(idUsuario).session(session)
+
         if(!usuario){
             throw crearError(404, "El cliente no existe")
         }            
 
-        await mongodbUtil.esquema.collection("historico_usuarios").insertOne(usuario)
+        //Aqui creamos un objeto plano a partir del usuario para 
+        //eliminarle el _id y que de ese modo el objeto 'UsuarioHitórico'
+        //no tenga valor en el id
+        let usuarioAPaloseco = usuario.toObject()
+        delete usuarioAPaloseco._id
+        let usuarioHistorico = new UsuarioHistorico(usuario)
 
-        await mongodbUtil.esquema
-            .collection("usuarios")
-            .findOneAndDelete({ _id : ObjectId.createFromHexString(idUsuario) })
+        //Asignamos una fecha de baja
+        usuarioHistorico.fechaBaja = Date.now()
+        //Esta consulta si que debe de estar asociada a la transacción
+        await usuarioHistorico.save({ session })
+
+        await usuario.deleteOne({ session })
+        //También podríamos haberlo hecho así:
+        //await Usuario.findByIdAndDelete(usuario._id).session(session)
 
         //COMMIT
         await session.commitTransaction()
@@ -135,3 +153,7 @@ exports.borrarUsuario = async function(idUsuario, autoridad){
     }
 
 }
+
+
+
+
