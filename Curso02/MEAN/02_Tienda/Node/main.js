@@ -5,15 +5,17 @@ const mongooseUtil = require('./util/mongooseUtil')
 const interceptorCORS = require('./middleware/interceptorCORS').interceptorCORS
 const interceptorLog = require('./middleware/interceptorLog').interceptorLog
 const interceptorJWT = require('./autenticacion/interceptorJWT').interceptorJWT
-const usuariosRouter = require('./endpoints/endpointUsuarios').router
 const autenticacionRouter = require('./autenticacion/loginRouter').router
+const usuariosRouter = require('./endpoints/endpointUsuarios').router
+//Este router está implementado utilizando clases JS
+const productosRouter = require('./endpoints/routerProductos').router
 const getCertificado = require('./util/certUtil').getCertificado
 
 mongooseUtil.conectar()
     //.then(() => {
     //    arrancarServidor()
     //})
-    .then(arrancarServidor)
+    .then( arrancarServidor )
     .catch( error => {
         console.log(error)
         console.log("No se pudo conectar a la bb.dd")
@@ -33,6 +35,7 @@ function arrancarServidor(){
     //Routers
     app.use(autenticacionRouter)
     app.use(usuariosRouter)
+    app.use(productosRouter)
 
     app.disable("x-powered-by")
 

@@ -22,9 +22,8 @@ Content-type: application/json
 { usuario }
 */
 async function insertarUsuario(request, response){
-    let usuario = request.body
-
     try {
+        let usuario = request.body
         let resultado = await negocioUsuarios.insertarUsuario(usuario)
         response
             .status(201)
@@ -47,26 +46,25 @@ async function insertarUsuario(request, response){
 //  nombre    : "Bartolo"
 //  direccion : ...
 //}
-function modificarUsuario(request, response){
+async function modificarUsuario(request, response){
 
     let idUsuario = request.params.id
-    let usuario = request.body
+    let usuario = request.body        
     if( usuario._id != idUsuario ){
         response.status(400).json("Qué cojones estás haciendo con los ids")
         return
     }
 
-    let autoridad = request.autoridad
-    negocioUsuarios.modificarUsuario(usuario, autoridad)
-    .then( () => {
+    try {
+        let autoridad = request.autoridad
+        await negocioUsuarios.modificarUsuario(usuario, autoridad)
         response.json({ mensaje : "El usuario se modificó correctamente" })
-    })
-    .catch( error => {
+    } catch (error) {
         console.log(error)
         response
             .status(error.codigo)
-            .json(error)        
-    })    
+            .json(error)          
+    }
 
 }
 

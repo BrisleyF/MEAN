@@ -23,12 +23,13 @@ exports.router = router
 //  login   : 'antunez',
 //  password: '1234'
 //}
-function login(request, response){
+async function login(request, response){
 
-    let credenciales = request.body
+    try {
 
-    negocioUsuarios.buscarPorLogin(credenciales.login)
-    .then( usuario => {
+        let credenciales = request.body
+
+        let usuario = await negocioUsuarios.buscarPorLogin(credenciales.login)
 
         if(!usuario || usuario.password != credenciales.password){
             response.status(401).json(crearError(401,"Credenciales incorrectas"))
@@ -48,19 +49,20 @@ function login(request, response){
                 algorithm: 'HS512' //SHA512 con firma de clave simétrica
             }
         )  
-        
+            
         delete usuario.password
+        //usuario.password = "[OCULTO]" Otra manera de hacerlo
         let respuesta = {
             jwt : token,
             usuario: usuario
         }
         response.json(respuesta)
-    })
-    .catch(error => {
+
+    } catch (error ) {
         console.log(error)
         response
             .status(error.codigo)
             .json(error)
-    })
+    }
 
 }

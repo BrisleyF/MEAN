@@ -1,4 +1,5 @@
-let mongoose = require("mongoose");
+//npm install mongoose
+let mongoose = require("mongoose")
 
 let esquemaUsuarioHistorico = new mongoose.Schema({
     //Si queremos que sea el driver el que le de valor al _id
@@ -15,7 +16,9 @@ let esquemaUsuarioHistorico = new mongoose.Schema({
     telefono  : String,
     correoE   : String,
     fechaAlta : String,
-    fechaBaja : String
+    fechaBaja : String        
 })
 
-exports.UsuarioHistorico = mongoose.model('historico_usuario', esquemaUsuarioHistorico);
+exports.UsuarioHistorico = mongoose.model('historico_usuario', esquemaUsuarioHistorico) 
+
+

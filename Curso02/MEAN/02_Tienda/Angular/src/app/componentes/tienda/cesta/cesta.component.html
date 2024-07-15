@@ -1,0 +1,31 @@
+
+<h3 class="text-center mt-3 mb-3">
+    Cesta 
+</h3>
+
+@for(detalle of cesta.detalles; track detalle){
+    <app-detalle-cesta [cesta]="cesta" [detalle]="detalle"></app-detalle-cesta>
+}
+@empty {
+    <div>
+        <h3 class="text-center">No hay productos en la cesta</h3>
+    </div>
+}
+
+<br/>
+
+<div class="d-flex justify-content-center mt-4 mb-4">
+    <h4 class="text-center">
+        Total {{cesta.total | currency:'EUR'}} 
+
+        <div class="mt-4">
+            <button class="btn btn-primary ms-2">
+                Guardar
+            </button>
+            <button class="btn btn-primary ms-2">
+                Comprar
+            </button>
+            <button class="btn btn-danger ms-2">Vaciar</button>
+        </div>
+    </h4>
+</div>

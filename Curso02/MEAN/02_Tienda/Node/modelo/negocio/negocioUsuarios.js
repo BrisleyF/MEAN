@@ -3,6 +3,23 @@ const Usuario = require("../entidades/usuario").Usuario
 const UsuarioHistorico = require("../entidades/usuarioHistorico").UsuarioHistorico
 const crearError = require("../../util/errorUtil").crearError
 
+
+let reglasUsrInsercion = {
+    login    : "required|min:3|max:20",
+    password : "required|min:3|max:20",
+    nombre   : "required|min:3|max:50",
+    correoE  : "required|min:3|max:30|email"
+}
+
+let reglasUsrModificacion = {
+    login     : "required|min:3|max:20",
+    password  : "required|min:3|max:20",
+    nombre    : "required|min:3|max:50",
+    correoE   : "required|min:3|max:30|email",
+    telefono  : "required|min:3|max:20",
+    direccion : "required|min:3|max:50",
+}
+
 exports.buscarPorLogin = async function(login){
     try {
         //return await mongodbUtil.esquema.collection("usuarios").findOne({ login : login })

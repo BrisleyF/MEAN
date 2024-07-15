@@ -1,0 +1,23 @@
+<app-menu></app-menu>
+
+<div class="row">
+
+    <div class="col-md-2">
+        <router-outlet name="barra-izquierda"></router-outlet>
+    </div>
+    
+    <div class="col-md-8">
+        <!--Dejamos un router-outlet sin nombre para asignarle a él las rutas de las carpetas de la barra del navegador-->
+        <router-outlet></router-outlet>
+    </div>
+    
+    <div class="col-md-2">
+        <!-- No queremos que el resumen de la cesta aparezca siempre
+        <app-resumen-cesta></app-resumen-cesta>
+        -->
+
+        <!-- Named router outlets -->
+        <router-outlet name="barra-derecha"></router-outlet>
+    </div>
+
+</div>

@@ -4,13 +4,19 @@ const mensajes = {
     "403" : "Permisos insuficientes"
 }
 
-exports.crearError = function(codigo, mensaje){
+//El parámetro 'data' será opcional
+exports.crearError = function(codigo, mensaje, data){
     if(!mensaje){
         mensaje = mensajes[codigo]
     }
 
-    return {
+    let error = {
         codigo  : codigo,
         mensaje : mensaje
     }
+    if(data){
+        error.data = data
+    }
+
+    return error
 }

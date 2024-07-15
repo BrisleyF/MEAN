@@ -1,3 +1,4 @@
+//npm install mongoose
 const mongoose = require("mongoose")
 
 exports.conectar = async function(){
@@ -11,4 +12,3 @@ exports.conectar = async function(){
         throw ({ codigo : "500",  mensaje : "no se pudo onectar con la bb.dd"} )        
     }
 }
-
