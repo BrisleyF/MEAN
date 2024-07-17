@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { MenuComponent } from '../../tienda/menu/menu.component';
 import { Router, RouterOutlet } from '@angular/router';
 import { ServicioAutenticacion } from '../../../modelo/servicios/servicioAutenticacion';
+import { ServicioCesta } from '../../../modelo/servicios/servicioCesta';
 
 @Component({
   selector: 'app-maquetacion-tienda',
   standalone: true,
   imports: [RouterOutlet, MenuComponent],
-  templateUrl: './maquetacion-tienda.component.html'
+  templateUrl: './maquetacion-tienda.component.html',
+  providers: [ ServicioCesta ]
 })
 export class MaquetacionTiendaComponent {
 

@@ -1,21 +1,55 @@
+import { Subject } from "rxjs";
 import { DetallePedido } from "./detallePedido";
 import { Producto } from "./producto";
 import { Usuario } from "./usuario";
+import { StringSchemaDefinition } from "mongoose";
 
 export class Pedido {
 
+    //Los que se subscriban a este subject recivirán eventos cuando la cesta cambie
+    private subjectCestaCambiada:Subject<any> = new Subject()
+
     constructor(
-        public _id              : string|null  = null,
-        public codigo           : string|null  = null,
-        public fecha            : string|null  = null,
-        public estado           : string|null  = null,
-        public domicilioFiscal  : string|null  = null,
-        public direccionEntrega : string|null  = null,
-        public usuario          : Usuario|null = null,
-        public detalles         : DetallePedido[] = [],
-        public total            : number       = 0,
-        public formaPago        : string|null  = null
+        public  _id              : string|null  = null,
+        public  codigo           : string|null  = null,
+        public  fecha            : string|null  = null,
+        public  estado           : string|null  = null,
+        public  domicilioFiscal  : string|null  = null,
+        public  direccionEntrega : string|null  = null,
+        public  usuario          : Usuario|null = null,
+        private _detalles        : DetallePedido[] = [],
+        public  total            : number       = 0,
+        public  formaPago        : string|null  = null
     ){}
+
+    public getSubjectCestaCambiada():Subject<any>{
+        return this.subjectCestaCambiada
+    }
+
+    //Métodos accesores en TypeScript
+    //Con extra de azucar sintáctico
+    public get detalles(): DetallePedido[] {
+        //Devolvemos un clon de los detalles para que nadie los modifique desde el exterior
+        return JSON.parse(JSON.stringify(this._detalles))
+    }
+
+    public set detalles(detalles: DetallePedido[]) {
+        this._detalles = detalles
+        this.calcularTotal()
+    }    
+
+    /*
+    public getDetalles(){
+        //Devolvemos un clon de los detalles para que nadie los modifique desde el exterior
+        //El truqui otra vez
+        return JSON.parse(JSON.stringify(this.detalles))
+    }
+
+    public setDetalles(detalles:DetallePedido[]):void{
+        this.detalles = detalles
+        this.calcularTotal()
+    }
+    */
 
     public addProducto(producto:Producto, cantidad:number, precio:number ):void{
         
@@ -28,21 +62,23 @@ export class Pedido {
         }
         */
 
-        let detalleEncontrado:DetallePedido|undefined = this.detalles
+        let detalleEncontrado:DetallePedido|undefined = this._detalles
             .find( detalle => detalle.producto._id == producto._id )
         if(detalleEncontrado){
             detalleEncontrado.cantidad += cantidad
             this.calcularTotal()
+            this.subjectCestaCambiada.next("Detalle aumentado")
             return
         }
-
+        
         let nuevoDetalle:DetallePedido = new DetallePedido(producto, cantidad, precio)
-        this.detalles.push(nuevoDetalle)
+        this._detalles.push(nuevoDetalle)
+        this.subjectCestaCambiada.next("Detalle añadido")
         this.calcularTotal()
     }
 
     public quitarProducto(producto:Producto, cantidad:number):void{
-        let detalleEncontrado:DetallePedido|undefined = this.detalles
+        let detalleEncontrado:DetallePedido|undefined = this._detalles
             .find( detalle => detalle.producto._id == producto._id )
         if(detalleEncontrado){
             detalleEncontrado.cantidad -= cantidad
@@ -51,6 +87,7 @@ export class Pedido {
                 return
             }
             this.calcularTotal()
+            this.subjectCestaCambiada.next("Detalle reducido")
             return
         }
     }
@@ -72,8 +109,10 @@ export class Pedido {
         this.detalles.splice(posicion, 1)
         */
 
-        this.detalles = this.detalles.filter( detalle => detalle.producto._id!=producto._id)
+        this._detalles = this._detalles.filter( detalle => detalle.producto._id!=producto._id)
         this.calcularTotal()
+        this.subjectCestaCambiada.next("Detalle eliminado")
+
     }
 
     private calcularTotal():void{    
@@ -85,7 +124,7 @@ export class Pedido {
         this.total = total
         */
 
-        this.total = this.detalles.reduce( 
+        this.total = this._detalles.reduce( 
             (total, detalle) => total+=detalle.cantidad*detalle.precio, 
             0
         ) 

@@ -11,6 +11,7 @@ import { registroVerificadoGuard } from './guards/registroVerificadoGuard';
 import { CestaComponent } from './componentes/tienda/cesta/cesta.component';
 import { OfertasComponent } from './componentes/tienda/ofertas/ofertas.component';
 import { ResumenCestaComponent } from './componentes/tienda/resumen-cesta/resumen-cesta.component';
+import { FormularioCompraComponent } from './componentes/tienda/formulario-compra/formulario-compra.component';
 
 export const routes: Routes = [
 
@@ -49,6 +50,10 @@ export const routes: Routes = [
             {
                 path: 'cesta',
                 component: CestaComponent
+            },
+            {
+                path: 'compra',
+                component: FormularioCompraComponent
             },
             //
             //Rutas para el named router outlet 'barra-izq'

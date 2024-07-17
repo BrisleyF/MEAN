@@ -3,7 +3,7 @@
     Cesta 
 </h3>
 
-@for(detalle of cesta.detalles; track detalle){
+@for(detalle of cesta.detalles; track $index){
     <app-detalle-cesta [cesta]="cesta" [detalle]="detalle"></app-detalle-cesta>
 }
 @empty {
