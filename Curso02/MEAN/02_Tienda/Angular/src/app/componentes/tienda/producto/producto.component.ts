@@ -1,9 +1,10 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, Input, input, OnInit } from '@angular/core';
 import { Producto } from '../../../modelo/entidades/producto';
 import { RecortarTextoPipe } from '../../../pipes/recortarTextoPipe';
 import { ServicioCesta } from '../../../modelo/servicios/servicioCesta';
 import { Pedido } from '../../../modelo/entidades/pedido';
 import { DetallePedido } from '../../../modelo/entidades/detallePedido';
+import { ServicioProductos } from '../../../modelo/servicios/servicioProductos';
 
 @Component({
   selector: 'app-producto',
@@ -12,16 +13,28 @@ import { DetallePedido } from '../../../modelo/entidades/detallePedido';
   templateUrl: './producto.component.html'
 
 })
-export class ProductoComponent {
+export class ProductoComponent implements OnInit {
 
   //El componente padre proporciona el valor de los @Input
   //utilizando el selector del componente
   @Input()
   public producto!:Producto 
+  public imagenProducto:any  
   private cesta:Pedido
 
-  constructor(private servicioCesta:ServicioCesta){
+  constructor(
+      private servicioCesta:ServicioCesta,
+      private servicioProductos:ServicioProductos
+    ){    
     this.cesta = this.servicioCesta.getCesta()
+  }
+  
+  ngOnInit(): void {
+    this.servicioProductos.getImagenProducto(this.producto.imagen)
+      .subscribe({
+        next: (imagen:any) => this.imagenProducto = imagen,
+        error: (error:any) => console.log(error)
+      })
   }
 
   public comprar():void{

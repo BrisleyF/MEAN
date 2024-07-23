@@ -4,11 +4,12 @@ import { ServicioAutenticacion } from '../../../modelo/servicios/servicioAutenti
 import { Usuario } from '../../../modelo/entidades/usuario';
 import { ServicioUsuarios } from '../../../modelo/servicios/servicioUsuarios';
 import { Router } from '@angular/router';
+import { CampoFormularioComponent } from '../../common/campo-formulario/campo-formulario.component';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ ReactiveFormsModule, CampoFormularioComponent ],
   templateUrl: './perfil.component.html'
 })
 export class PerfilComponent {

@@ -5,12 +5,11 @@
 <br/>
 
 <form class="row" [formGroup]="formulario">
-    <div class="col-sm-12 col-md-2 mt-1">
-        <label for="nombre">Nombre</label>
-    </div>
-    <div class="col-sm-12 col-md-10 mt-1">
+
+    <app-campo-formulario [formulario]="formulario" label="Nombre" campo="nombre">
         <input id="nombre" formControlName="nombre" class="form-control"/>
-    </div>
+    </app-campo-formulario>
+
     <!--
     Para cambiar el password debemos hacer una pantalla especifica para esa acción
     <div class="col-sm-12 col-md-2 mt-1">
@@ -26,39 +25,28 @@
             </small>
         </div>
     </div> 
-    -->                
+    -->          
     
-    <div class="col-sm-12 col-md-2 mt-1">
-        <label for="year">Idioma</label>
-    </div>
-    <div class="col-sm-12 col-md-10 mt-1">
-        <!--Este campo no está unido al formulario porque está aqui haciendo bulto-->
+    <!--Este campo no está unido al formulario porque está aqui haciendo bulto-->
+    <app-campo-formulario [formulario]="formulario" label="Idioma" campo="idioma">
         <select class="form-control">
             <option>ES</option>
             <option>EN</option>
         </select>
-    </div>
+    </app-campo-formulario>
     
-    <div class="col-sm-12 col-md-2 mt-1">
-        <label for="correoE">Correo E</label>
-    </div>
-    <div class="col-sm-12 col-md-10 mt-1">
+    
+    <app-campo-formulario [formulario]="formulario" label="Correo E" campo="correoE">
         <input id="correoE" formControlName="correoE" class="form-control"/>
-    </div>
-
-    <div class="col-sm-12 col-md-2 mt-1">
-        <label for="telefono">Teléfono</label>
-    </div>
-    <div class="col-sm-12 col-md-10 mt-1">
+    </app-campo-formulario>
+    
+    <app-campo-formulario [formulario]="formulario" label="Teléfono" campo="telefono">
         <input id="telefono" formControlName="telefono" class="form-control"/>    
-    </div>
-
-    <div class="col-sm-12 col-md-2 mt-1">
-        <label for="direccion">Dirección</label>
-    </div>
-    <div class="col-sm-12 col-md-10 mt-1">
+    </app-campo-formulario>
+    
+    <app-campo-formulario [formulario]="formulario" label="Dirección" campo="direccion">
         <input id="direccion" formControlName="direccion" class="form-control"/>        
-    </div>
+    </app-campo-formulario>
 </form>  
 
 <div class="text-center mt-4"> 

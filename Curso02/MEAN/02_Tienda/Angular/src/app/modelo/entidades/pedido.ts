@@ -10,16 +10,16 @@ export class Pedido {
     private subjectCestaCambiada:Subject<any> = new Subject()
 
     constructor(
-        public  _id              : string|null  = null,
-        public  codigo           : string|null  = null,
-        public  fecha            : string|null  = null,
-        public  estado           : string|null  = null,
-        public  domicilioFiscal  : string|null  = null,
-        public  direccionEntrega : string|null  = null,
-        public  usuario          : Usuario|null = null,
-        private _detalles        : DetallePedido[] = [],
-        public  total            : number       = 0,
-        public  formaPago        : string|null  = null
+        public  _id                  : string|null  = null,
+        public  codigo               : string|null  = null,
+        public  fecha                : string|null  = null,
+        public  estado               : string|null  = null,
+        public  direccionFacturacion : string|null  = null,
+        public  direccionEntrega     : string|null  = null,
+        public  usuario              : Usuario|null = null,
+        private _detalles            : DetallePedido[] = [],
+        public  total                : number       = 0,
+        public  formaPago            : string|null  = null
     ){}
 
     public getSubjectCestaCambiada():Subject<any>{
@@ -38,21 +38,7 @@ export class Pedido {
         this.calcularTotal()
     }    
 
-    /*
-    public getDetalles(){
-        //Devolvemos un clon de los detalles para que nadie los modifique desde el exterior
-        //El truqui otra vez
-        return JSON.parse(JSON.stringify(this.detalles))
-    }
-
-    public setDetalles(detalles:DetallePedido[]):void{
-        this.detalles = detalles
-        this.calcularTotal()
-    }
-    */
-
     public addProducto(producto:Producto, cantidad:number, precio:number ):void{
-        
         /*
         for(let detalle of this.detalles){
             if(detalle.producto._id == producto._id){
@@ -113,6 +99,12 @@ export class Pedido {
         this.calcularTotal()
         this.subjectCestaCambiada.next("Detalle eliminado")
 
+    }
+
+    public vaciar():void{
+        this._detalles = []
+        this.calcularTotal()
+        this.subjectCestaCambiada.next("Cesta vaciada")        
     }
 
     private calcularTotal():void{    

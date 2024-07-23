@@ -1,8 +1,16 @@
 
 <div class="card mt-4">
        
-    <!--<img class="card-img-top" [src]="producto.imagen" alt="Atiende">-->
+    <!--
+    La petición es correcta, pero no se añade el JWT al head y devuelve 401
+    <img class="card-img-top" src="https://localhost:7000/{{producto?.imagen}}" [alt]="producto.nombre">
+    -->
+    
+    <!--
     <img class="card-img-top" src="https://picsum.photos/300/200?random={{producto._id}}" alt="Card image">
+    -->
+    
+    <img [src]="imagenProducto" [alt]="producto.nombre">
 
     <div class="card-body">
         <h4 class="card-title">{{producto.nombre}}</h4>

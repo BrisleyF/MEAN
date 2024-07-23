@@ -3,6 +3,8 @@ import { ServicioAutenticacion } from '../../../modelo/servicios/servicioAutenti
 import { Router, RouterLink } from '@angular/router';
 import { Usuario } from '../../../modelo/entidades/usuario';
 import { Subscription } from 'rxjs';
+import { ServicioCesta } from '../../../modelo/servicios/servicioCesta';
+import { Pedido } from '../../../modelo/entidades/pedido';
 
 @Component({
   selector: 'app-menu',
@@ -13,12 +15,16 @@ import { Subscription } from 'rxjs';
 export class MenuComponent implements OnDestroy {
 
   public nombre:string = ''
+  public cesta:Pedido
   private subscripcion:Subscription
 
   constructor(
       private servicioAutenticacion:ServicioAutenticacion,
+      private servicioCesta:ServicioCesta,
       private router:Router
     ){
+
+    this.cesta = servicioCesta.getCesta()
     //let usuario:Usuario = servicioAutenticacion.getUsuario()
     //this.nombre = usuario.nombre
     //this.nombre = servicioAutenticacion.getUsuario().nombre

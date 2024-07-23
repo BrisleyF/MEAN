@@ -30,6 +30,15 @@ exports.buscarPorLogin = async function(login){
     }
 }
 
+exports.buscarPorId = async function(id){
+    try {
+        return await Usuario.findById(id)
+    } catch (error) {
+        console.log(error)
+        throw crearError(500, "Error con la base de datos")
+    }
+}
+
 exports.insertarUsuario = async function(usuario){
     try {
         //Validar los datos    
@@ -48,6 +57,7 @@ exports.insertarUsuario = async function(usuario){
         //Le asignamos el rol y la fecha de alta al usuario
         usuario.rol = "CLIENTE"
         usuario.fechaAlta = Date.now()
+        usuario.estado = "ACTIVO"
         
         //QUITAR EL _ID
         delete usuario._id

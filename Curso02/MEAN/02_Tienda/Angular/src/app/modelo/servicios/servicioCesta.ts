@@ -51,7 +51,7 @@ export class ServicioCesta {
     public getCesta(){
         return this.cesta
     }
-
+   
     public guardarCesta(evento:string):void{
         //guardar los detalles de la cesta en el local estorage
         console.log("ServicioCesta, evento recibido: "+evento)

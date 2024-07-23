@@ -9,9 +9,15 @@
         <li class="nav-item">
             <a class="nav-link" [routerLink]="['/tienda', { outlets: { 'primary':['catalogo'], 'barra-derecha':['resumen'] }}]">Catálogo</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/tienda', { outlets: { 'primary':['cesta'], 'barra-derecha':null }}]">Cesta</a>
-        </li>
+        @if(cesta.detalles.length > 0){
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/tienda', { outlets: { 'primary':['cesta'], 'barra-derecha':null }}]">Cesta</a>
+            </li>
+        } @else {
+            <li class="nav-item">
+                <span class="nav-link"><s>Cesta</s></span>
+            </li>
+        }
         <li class="nav-item">
             <a class="nav-link" >Pedidos</a>
         </li>

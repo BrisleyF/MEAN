@@ -34,7 +34,11 @@
 <h4 class="text-center">
     Total: {{cesta.total}} €
     <br/>
-    <button class="btn btn-primary btn-sm" routerLink="/tienda/compra">Comprar</button>
+    <button 
+        class="btn btn-primary btn-sm" 
+        [routerLink]="['/tienda', { outlets: { 'primary':['compra'], 'barra-derecha':['resumen'] }}]">
+        Comprar
+    </button>
 </h4>
 }
 

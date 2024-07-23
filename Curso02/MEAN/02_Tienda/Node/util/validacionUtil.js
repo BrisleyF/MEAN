@@ -13,6 +13,5 @@ exports.validar = function(objeto, reglas, idioma="es"){
             'Los datos son inválidos',
             validador.errors.errors
         ) 
-    }
-    
+    }    
 }

@@ -2,18 +2,22 @@ import { Component } from '@angular/core';
 import { Pedido } from '../../../modelo/entidades/pedido';
 import { ServicioCesta } from '../../../modelo/servicios/servicioCesta';
 import { DetallePedido } from '../../../modelo/entidades/detallePedido';
+import { ActivatedRoute, ActivatedRouteSnapshot, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-resumen-cesta',
   standalone: true,
-  imports: [],
+  imports: [ RouterLink ],
   templateUrl: './resumen-cesta.component.html'
 })
 export class ResumenCestaComponent {
 
   public cesta!:Pedido
 
-  public constructor(private servicioCesta:ServicioCesta){
+  public constructor(
+      private servicioCesta:ServicioCesta,
+      private ruta:ActivatedRoute){
+    console.log("RUTA:",ruta.snapshot.url, ruta.snapshot.pathFromRoot)
     this.cesta = servicioCesta.getCesta()
   }
 

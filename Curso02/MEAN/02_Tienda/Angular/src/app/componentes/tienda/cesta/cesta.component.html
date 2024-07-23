@@ -19,13 +19,16 @@
         Total {{cesta.total | currency:'EUR'}} 
 
         <div class="mt-4">
-            <button class="btn btn-primary ms-2">
+            <button class="btn btn-primary ms-2" [disabled]="cesta.detalles.length==0">
                 Guardar
             </button>
-            <button class="btn btn-primary ms-2">
+            <button 
+                class="btn btn-primary ms-2" 
+                [disabled]="cesta.detalles.length==0" 
+                [routerLink]="['/tienda', { outlets: { 'primary':['compra'], 'barra-derecha':['resumen'] }}]">
                 Comprar
             </button>
-            <button class="btn btn-danger ms-2">Vaciar</button>
+            <button class="btn btn-danger ms-2" [disabled]="cesta.detalles.length==0" (click)="vaciarCesta()">Vaciar</button>
         </div>
     </h4>
 </div>

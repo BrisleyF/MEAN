@@ -7,6 +7,7 @@ const interceptorLog = require('./middleware/interceptorLog').interceptorLog
 const interceptorJWT = require('./autenticacion/interceptorJWT').interceptorJWT
 const autenticacionRouter = require('./autenticacion/loginRouter').router
 const usuariosRouter = require('./endpoints/endpointUsuarios').router
+const ordenDeCompraRouter = require('./endpoints/endpointOrdenesDeCompra').router
 //Este router está implementado utilizando clases JS
 const productosRouter = require('./endpoints/routerProductos').router
 const getCertificado = require('./util/certUtil').getCertificado
@@ -36,6 +37,10 @@ function arrancarServidor(){
     app.use(autenticacionRouter)
     app.use(usuariosRouter)
     app.use(productosRouter)
+    app.use(ordenDeCompraRouter)
+
+    //Para las imágenes de los productos
+    app.use(express.static("./recursos"))    
 
     app.disable("x-powered-by")
 

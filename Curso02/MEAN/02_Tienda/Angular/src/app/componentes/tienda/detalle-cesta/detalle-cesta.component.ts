@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DetallePedido } from '../../../modelo/entidades/detallePedido';
 import { RecortarTextoPipe } from '../../../pipes/recortarTextoPipe';
 import { Pedido } from '../../../modelo/entidades/pedido';
@@ -9,7 +9,11 @@ import { Pedido } from '../../../modelo/entidades/pedido';
   imports: [ RecortarTextoPipe ],
   templateUrl: './detalle-cesta.component.html'
 })
-export class DetalleCestaComponent {
+export class DetalleCestaComponent implements OnInit {
+  ngOnInit(): void {
+    console.log(this.detalle)
+    console.log(this.cesta)
+  }
 
   @Input()
   public detalle!:DetallePedido
